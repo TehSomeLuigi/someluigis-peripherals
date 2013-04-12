@@ -37,14 +37,14 @@ public class TileEntityHTTPD extends TileEntity implements IPeripheral {
 
         if (mn.equals("isActive")) return new Object[] { SLPMod.httpdEnabled };
         if (mn.equals("respond")) {
-
-            if (this.reqsw.get((int) ((Double) args[0]).doubleValue()) != null) {
-                // put the request!
-                // sorry for messy casting...
-                ((PrintStream) this.reqsw.get((int) ((Double) args[0])
-                        .doubleValue())).print(args[1]);
-                ((PrintStream) this.reqsw.get((int) ((Double) args[0])
-                        .doubleValue())).close();
+            
+            Object pso = this.reqsw.get((int) ((Double) args[0]).doubleValue());
+            
+            if (pso instanceof PrintStream) {
+                PrintStream ps = (PrintStream) pso;
+                
+                ps.print(args[1]);
+                ps.close();
             }
         }
         if (mn.equals("start")) {
