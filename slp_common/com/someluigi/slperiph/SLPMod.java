@@ -7,10 +7,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.Configuration;
-
 import com.someluigi.slperiph.block.ItemBlockSLP;
 import com.someluigi.slperiph.block.SLPBlock;
+import com.someluigi.slperiph.server.SLPCommand;
 import com.someluigi.slperiph.server.SLPHTTPServer;
 import com.someluigi.slperiph.tileentity.TileEntityHTTPD;
 
@@ -26,7 +27,7 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "SLPMod", name = "SLs Peripherals", version = "1.0b", dependencies = "after:ComputerCraft;after:CCTurtle")
+@Mod(modid = "SLPMod", name = "SLs Peripherals", version = "@VERSION@", dependencies = "after:ComputerCraft;after:CCTurtle")
 public class SLPMod {
 
     public Logger l;
@@ -40,6 +41,7 @@ public class SLPMod {
 
     public static int httpdPort;
     public static boolean httpdEnabled;
+    public static String httpdStat;
 
     @PreInit
     public void preinit(FMLPreInitializationEvent evt) {
@@ -145,18 +147,22 @@ public class SLPMod {
     @ServerStarting
     public void serverstarting(FMLServerStartingEvent evt) {
 
+        evt.registerServerCommand(new SLPCommand());
+        
         this.l = Logger.getLogger("SLPMod");
 
         if (httpdEnabled) {
 
             this.l.info("Starting Simple HTTP Server NOW! - on port "
                     + httpdPort);
+            SLPMod.httpdStat = EnumChatFormatting.GREEN + "ENABLED (port " + httpdPort + ")";
             SLPHTTPServer.start(httpdPort);
             this.l.info("HTTP Server is started.");
             this.l.info("HTTP Server is using simpleframework, simpleframework.org");
 
         } else {
-
+            
+            SLPMod.httpdStat = EnumChatFormatting.RED + "DISABLED";
             this.l.info("HTTP Server is disabled in the config, will not start.");
 
         }
@@ -167,5 +173,12 @@ public class SLPMod {
     public void serverstopping(FMLServerStoppingEvent evt) {
         SLPHTTPServer.stop();
     }
+    
+    
+    
+    
+    
+    
+    
 
 }
