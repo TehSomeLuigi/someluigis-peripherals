@@ -1,0 +1,52 @@
+<?xml version="1.0" ?> 
+<project name="SomeLuigis Peripherals">
+	
+	<property file="build.properties" />
+	
+	<target name="clean">
+		<delete file="${dir.development}/mcp/src/minecraft/mcmod.info" />
+		<delete dir="${dir.development}/mcp/src/minecraft/com" />
+		<delete dir="${dir.development}/mcp/src/minecraft/org" />
+		<delete dir="${dir.development}/mcp/src/minecraft/dan200" />
+		<delete dir="${dir.development}/mcp/reobf/minecraft" />
+	</target>
+	
+	<target name="build">
+		<copy todir="${dir.development}/mcp/src/minecraft">
+			<fileset dir="./slp_common/" />
+		</copy>
+		<replace dir="${dir.development}/mcp/src/minecraft" token="@VERSION@" value="${release.mod.version}" />
+	</target>
+	
+	<target name="recompile">
+		<exec dir="${dir.development}/mcp" executable="cmd" osfamily="windows">
+			<arg line="/c recompile.bat" />
+		</exec>
+		<exec dir="${dir.development}/mcp" executable="bash" osfamily="unix">
+			<arg line="recompile.sh" />
+		</exec>
+	</target>
+	
+	<target name="reobfuscate">
+		<exec dir="${dir.development}/mcp" executable="cmd" osfamily="windows">
+			<arg line="/c reobfuscate_srg.bat" />
+		</exec>
+		<exec dir="${dir.development}/mcp" executable="bash" osfamily="unix">
+			<arg line="reobfuscate_srg.sh" />
+		</exec>
+	</target>
+	
+	<target name="release" depends="clean,build,recompile,reobfuscate">		
+		<!-- Build the jar -->
+		<mkdir dir="${dir.release}\${release.minecraft.version}\${release.mod.version}" />
+		<jar destfile="${dir.release}\${release.minecraft.version}\${release.mod.version}\slperiph-${release.mod.version}-mc${release.minecraft.version}.jar">
+			<fileset dir="${dir.development}\mcp\src\minecraft" includes="mcmod.info" />
+			<fileset dir="${dir.development}\mcp\reobf\minecraft" />
+			<fileset dir="./resources" />
+		</jar>
+		
+		<!-- Clean up now we are done -->
+		<antcall target="clean" />
+	</target>
+
+</project>
