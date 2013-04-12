@@ -1,0 +1,86 @@
+
+tArgs = { ... }
+
+if ( #tArgs <= 1 ) then
+    print( "Usage: transmit <side> <program>" )
+    return
+end
+
+local side      = tArgs[1]
+local program   = tArgs[2]
+
+if ( peripheral.getType( side ) ~= "transmitter" ) then
+    print( "No transmitter on " .. side .. " side" )
+    return
+end
+
+local path = shell.resolveProgram( program )
+if ( path == nil ) then
+    print( "No such program: " .. program )
+    return
+end
+
+print( "Running " .. program .. " on " .. side .. " transmitter" )
+
+local trans = peripheral.wrap( side )
+term.redirect( trans )
+
+term.clear()
+
+term.setCursorPos( 0, 0 )
+term.setTextColor( colors.white )
+
+
+local function run( ... )
+    shell.run( path, select( 3, ... ) )
+end
+
+local thread = coroutine.create( run, ... )
+
+local event  = {}
+local filter = nil
+
+local redirect = {
+    ["pda_char"]    = "char",
+    ["pda_key"]     = "key",
+    
+    ["pda_click"]   = "mouse_click",
+    ["pda_scroll"]  = "mouse_scroll",
+    ["pda_drag"]    = "mouse_drag",
+}
+
+while true do
+    local id = event[1]
+    
+    if ( id ) then -- Redirect PDA events
+        local trans = redirect[ id ]
+        
+        if ( trans ) then
+            event[1] = trans
+        end
+    end
+
+    if ( not filter or filter == id or id == "terminate" ) then -- Run on events, using filters!
+        local succ, param = coroutine.resume( thread, unpack( event ) )
+    
+        if ( not succ ) then
+            printError( "Program error!" )
+            printError( param )
+        else
+            filter = param
+        end
+    end
+
+    if ( id == "terminate" ) then -- Inform PDA on termination
+        break
+    end
+        
+    if ( coroutine.status( thread ) == "dead" ) then
+        break
+    end
+    
+    event = { os.pullEventRaw() }
+end
+
+printError( "Connection lost" )
+term.restore()

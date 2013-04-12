@@ -11,10 +11,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
+import com.someluigi.slperiph.ccportable.shared.TileEntityTransmitter;
 import com.someluigi.slperiph.tileentity.TileEntityHTTPD;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dan200.computer.api.ComputerCraftAPI;
 
 public class SLPBlock extends Block {
 
@@ -22,7 +24,7 @@ public class SLPBlock extends Block {
 
     public SLPBlock(int par1, int par2, Material par3Material) {
         super(par1, Material.rock);
-        this.setCreativeTab(CreativeTabs.tabDecorations);
+        this.setCreativeTab(ComputerCraftAPI.getCreativeTab());
     }
 
     /**
@@ -47,6 +49,8 @@ public class SLPBlock extends Block {
         switch (metadata) {
             case 0:
                 return new TileEntityHTTPD();
+            case 1: // PP: Transmitter
+                return new TileEntityTransmitter();
         }
         return null;
     }
@@ -66,16 +70,17 @@ public class SLPBlock extends Block {
     @Override
     @SideOnly(Side.CLIENT)
     // Client side only
-    public Icon getBlockTextureFromSideAndMetadata(int side, int meta) { // Tells
-                                                                         // it
-                                                                         // which
-                                                                         // texture
-                                                                         // from
-                                                                         // the
-                                                                         // sprite
-                                                                         // sheet
+    public Icon getBlockTextureFromSideAndMetadata(int side, int meta) {
+        // Tells
+        // it
+        // which
+        // texture
+        // from
+        // the
+        // sprite
+        // sheet
         switch (meta) {
-            case 0:
+            case 0: // HTTP Server
                 switch (side) {
                     case 1:
                         return this.heatVentIcon;
@@ -83,6 +88,8 @@ public class SLPBlock extends Block {
                         return this.heatVentIcon;
                 }
                 return this.blockIcon;
+            case 1: // PP: Transmitter
+                // return;
 
         }
         return this.blockIcon;
@@ -107,9 +114,9 @@ public class SLPBlock extends Block {
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister ir) {
         this.blockIcon = ir
-                .registerIcon("someluigi/slperiph/blockhttpserver-server");
+                .registerIcon("slperiph:blockhttpserver-server");
         this.heatVentIcon = ir
-                .registerIcon("someluigi/slperiph/blockhttpserver-vents");
+                .registerIcon("slperiph:blockhttpserver-vents");
     }
 
 }
