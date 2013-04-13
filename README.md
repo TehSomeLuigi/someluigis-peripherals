@@ -14,17 +14,19 @@ Build like Pahimar's Equivalent Exchange 3, though the source directory can be c
 
 Your directory structure should be like:
 
-***
-  mcmodding/
-    mcp/
-      forge/
-      other-important-mcp-stuff (install mcp + forge before compiling)
-    source/
-      SLP-Peripherals/
-        build.xml
-        slp_common/
-        resources/
-***
+```
+
+mc-modding/
+ mcp/
+  forge/
+  other-mcp-stuff/
+ source/
+  SLP-Peripherals/
+   slp_common/
+   resources/
+   build.xml
+
+```
 
 *Remember to install MCP + Forge properly first!*
 Then open cmd or bash, go to mcmodding/source/SLP-Peripherals and run the command `ant release`.
