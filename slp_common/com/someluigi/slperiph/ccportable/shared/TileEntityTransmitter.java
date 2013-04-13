@@ -1,5 +1,7 @@
 package com.someluigi.slperiph.ccportable.shared;
 
+import com.someluigi.slperiph.ComputerManipulation;
+
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
@@ -40,6 +42,7 @@ public class TileEntityTransmitter extends TileEntity implements IPeripheral{
 	public void attach(IComputerAccess computer) {
 		terminal.setStaticHost(this);	
 		terminal.attach(computer);
+		ComputerManipulation.mountDemoDir(computer);
 	}
 	public void detach(IComputerAccess computer) {
 		terminal.detach(computer);

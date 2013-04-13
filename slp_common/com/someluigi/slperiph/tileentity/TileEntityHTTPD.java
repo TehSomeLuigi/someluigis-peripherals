@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+import com.someluigi.slperiph.ComputerManipulation;
 import com.someluigi.slperiph.SLPMod;
 import com.someluigi.slperiph.server.SLPHTTPServer;
 
@@ -71,6 +72,7 @@ public class TileEntityHTTPD extends TileEntity implements IPeripheral {
         if (SLPMod.debugM) {
             System.out.print("attach");
         }
+        ComputerManipulation.mountDemoDir(computer);
     }
 
     @Override
