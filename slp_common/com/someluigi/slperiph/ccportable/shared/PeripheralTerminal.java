@@ -5,14 +5,14 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-import com.someluigi.slperiph.SLPMod;
-import com.someluigi.slperiph.SLPMod.Config;
-import com.someluigi.slperiph.ccportable.shared.PayloadManager.Payload;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
+
+import com.someluigi.slperiph.SLPMod;
+import com.someluigi.slperiph.SLPMod.Config;
+import com.someluigi.slperiph.ccportable.shared.PayloadManager.Payload;
 
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IHostedPeripheral;
@@ -260,11 +260,13 @@ public class PeripheralTerminal implements IHostedPeripheral{
 	public void readFromNBT(NBTTagCompound data) {
 		setFreq( data.getInteger(TAG_FREQ) );
 		range = Math.max(range, data.getInteger(TAG_RANGE));
+		//System.out.println("[PP] LOADED NBT: f" + this.freq + " r" + this.range);
 	}
 
 	public void writeToNBT(NBTTagCompound data) {
 		data.setInteger(TAG_FREQ, freq);
 		data.setInteger(TAG_RANGE, range);
+		//System.out.println("[PP] WRITTEN NBT: f" + this.freq + " r" + this.range);
 	}
 
 	public void setStaticHost( TileEntity tile ) {
