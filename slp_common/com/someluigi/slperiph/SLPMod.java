@@ -19,6 +19,7 @@ import com.someluigi.slperiph.ccportable.shared.ItemPDA;
 import com.someluigi.slperiph.ccportable.shared.ItemQuartz;
 import com.someluigi.slperiph.ccportable.shared.PayloadManager;
 import com.someluigi.slperiph.ccportable.shared.RecipeQuartzMix;
+import com.someluigi.slperiph.ccportable.shared.TileEntityTransmitter;
 import com.someluigi.slperiph.ccportable.shared.UpgradeTransmitter;
 import com.someluigi.slperiph.server.SLPCommand;
 import com.someluigi.slperiph.server.SLPHTTPServer;
@@ -188,6 +189,7 @@ public class SLPMod {
         GameRegistry.registerBlock(blockAntenn, "slp.ccp.antenn");
         GameRegistry.registerBlock(blockTransmitter, "slp.cpp.trans");
         GameRegistry.registerTileEntity(TileEntityHTTPD.class, "slp-phttpd");
+        GameRegistry.registerTileEntity(TileEntityTransmitter.class, "slp-pp-trans");
         
         itemPDA = new ItemPDA(Config.itemTerminalID);
         itemQuartz = new ItemQuartz(Config.itemQuartzID);
@@ -196,7 +198,7 @@ public class SLPMod {
         GameRegistry.registerItem(itemQuartz, "slp.pp.itemQuartz");
         
         
-        proxy.unpackResourceFolder("com/someluigi/slperiph/lua", "mods/ComputerCraft/lua/rom/programs");
+        proxy.unpackResourceFolder("com/someluigi/slperiph/lua", "slperiph-demo");
         proxy.init();
         
         NetworkRegistry.instance().registerGuiHandler(this, new GuiManager());
