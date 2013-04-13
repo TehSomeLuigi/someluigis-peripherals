@@ -10,7 +10,7 @@ import com.someluigi.slperiph.ccportable.client.GuiTransmitter;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 
-public class GuiManager implements IGuiHandler{
+public class GuiManager implements IGuiHandler {
 	public static final int GUI_TERMINAL	= 0x00;
 	public static final int GUI_TRANSMITTER	= 0x01;
 	
