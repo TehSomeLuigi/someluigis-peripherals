@@ -14,6 +14,7 @@ Build like Pahimar's Equivalent Exchange 3, though the source directory can be c
 
 Your directory structure should be like:
 
+***
   mcmodding/
     mcp/
       forge/
@@ -23,7 +24,8 @@ Your directory structure should be like:
         build.xml
         slp_common/
         resources/
-        
+***
+
 *Remember to install MCP + Forge properly first!*
 Then open cmd or bash, go to mcmodding/source/SLP-Peripherals and run the command `ant release`.
 Please note you need Apache Ant installed, aswell as the JDK and other things MCP needs.
